@@ -14,8 +14,8 @@ import gc
 gc.collect()
 
 
-ssid = 'Ervin-2g'
-password = 'A10CJ11ASA05BLERVIN'
+ssid = 'your wifi gateway'
+password = 'your password'
 #due to a board using an active low signal we will invert from what normal examples show. Check out signal class in micropython
 led_pin = Pin(2, Pin.OUT)
 led = Signal(led_pin,invert=True)
