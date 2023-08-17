@@ -1,5 +1,24 @@
-led_state = "OFF"
-color = "#000000"
+
+def runMotor():
+    dc_motor.forward(100)    
+    time.sleep(10)        
+    dc_motor.stop()  
+    time.sleep(10)    
+    dc_motor.backwards(100)  
+    time.sleep(10)       
+    dc_motor.forward(100)
+    time.sleep(10)
+    dc_motor.stop()
+
+async def openDoor():
+    dc_motor.forward(50)
+    time.sleep(10)
+    dc_motor.stop()
+
+async def closeDoor():
+    dc_motor.backwards(50)
+    time.sleep(10)
+    dc_motor.stop()
 
 def web_page():
     html = """<html>
@@ -39,6 +58,7 @@ def web_page():
     <h2>ESP MicroPython Web Server</h2>
     <p>LED state: <strong>""" + led_state + """</strong></p>
     <i class="fas fa-lightbulb fa-3x" style="color:#""" + color + """;"></i>
+    <p>Door state: <strong>""" + door_state + """</strong></p>
     <p>
         <a href=\"?led_2_on\"><button class="button">LED ON</button></a>
     </p>
@@ -73,15 +93,21 @@ while True:
         if led_on == 6:
             print('LED ON -> GPIO2')
             led_state = "ON"
+            door_state = "OPEN"
             color = "d8dc55"
             led.on()
-            
+            dc_motor.forward(50)    
+            time.sleep(10)        
+            dc_motor.stop() 
         if led_off == 6:
             print('LED OFF -> GPIO2')
             led_state = "OFF"
+            door_state = "CLOSED"
             led.off()
             color = "000000"
-            
+            dc_motor.backwards(50)    
+            time.sleep(10)        
+            dc_motor.stop() 
         response = web_page()
         conn.send('HTTP/1.1 200 OK\n')
         conn.send('Content-Type: text/html\n')
@@ -91,3 +117,4 @@ while True:
     except OSError as e:
         conn.close()
         print('Connection closed')
+        machine.reset()

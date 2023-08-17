@@ -3,9 +3,13 @@ try:
 except:
   import socket
 
-from machine import Pin, Signal
+import machine
 import network
 import time
+from dcmotor import DCMotor    
+from machine import Pin, Signal,PWM
+import asyncio
+import ntptime
 
 import esp
 esp.osdebug(None)
@@ -14,8 +18,8 @@ import gc
 gc.collect()
 
 
-ssid = 'your wifi gateway'
-password = 'your password'
+ssid = 'Ervin-2g'
+password = 'A10CJ11ASA05BLERVIN'
 #due to a board using an active low signal we will invert from what normal examples show. Check out signal class in micropython
 led_pin = Pin(2, Pin.OUT)
 led = Signal(led_pin,invert=True)
@@ -24,11 +28,16 @@ led.off()
 station = network.WLAN(network.STA_IF)
 #set the station as active
 station.active(True)
-#send connect to the wireless network
-station.connect(ssid, password)
-#this will run until the station is connected
-while station.isconnected() == False:
-  pass
+
+def wifiConnect():
+  #send connect to the wireless network
+  station.connect(ssid, password)
+  #this will run until the station is connected
+  while station.isconnected() == False:
+    pass
+
+
+wifiConnect()
 
 print('Connection successful')
 print(station.ifconfig())
