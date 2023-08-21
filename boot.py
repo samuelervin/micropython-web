@@ -18,13 +18,13 @@ esp.osdebug(None)
 import gc
 gc.collect()
 
-#TODO: need to add a read from a json config file that will live on the board
-ssid = 'yourssid'
-password = 'yourpassword'
-
 with open('settings.json', 'r') as f:
   settings_dict = json.load(f)
 print(settings_dict)
+
+#TODO: need to add a read from a json config file that will live on the board
+ssid = settings_dict['SSID']
+password = settings_dict['Key']
 
 #due to a board using an active low signal we will invert from what normal examples show. Check out signal class in micropython
 led_pin = Pin(2, Pin.OUT)
