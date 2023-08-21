@@ -1,0 +1,6 @@
+{
+  "SSID": "yourssid",
+  "motortype": "actuator",
+  "speed": 50,
+  "Key": "yourpassword"
+}

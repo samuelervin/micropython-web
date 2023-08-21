@@ -2,7 +2,8 @@ try:
   import usocket as socket
 except:
   import socket
-
+import os
+import json
 import machine
 import network
 import time
@@ -20,6 +21,11 @@ gc.collect()
 #TODO: need to add a read from a json config file that will live on the board
 ssid = 'yourssid'
 password = 'yourpassword'
+
+with open('settings.json', 'r') as f:
+  settings_dict = json.load(f)
+print(settings_dict)
+
 #due to a board using an active low signal we will invert from what normal examples show. Check out signal class in micropython
 led_pin = Pin(2, Pin.OUT)
 led = Signal(led_pin,invert=True)
