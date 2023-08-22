@@ -2,14 +2,13 @@ try:
   import usocket as socket
 except:
   import socket
-import os
 import json
 import machine
 import network
 import time
 from dcmotor import DCMotor    
 from machine import Pin, Signal,PWM
-import ntptime
+
 
 import esp
 esp.osdebug(None)
@@ -44,8 +43,8 @@ led_pin = Pin(2, Pin.OUT)
 led = Signal(led_pin,invert=False)
 led.off()
 
-MOTOR_PIN1 = machine.Pin(4, machine.Pin.OUT)
-MOTOR_PIN2 = machine.Pin(5, machine.Pin.OUT)
+MOTOR_PIN1 = machine.Pin(5, machine.Pin.OUT)
+MOTOR_PIN2 = machine.Pin(4, machine.Pin.OUT)
 MOTOR_FREQUENCY = 15000
 MOTOR_PWM = machine.PWM(machine.Pin(13), MOTOR_FREQUENCY)
 dc_motor = DCMotor(MOTOR_PIN1, MOTOR_PIN2, MOTOR_PWM)
@@ -61,5 +60,5 @@ wifiConnect()
 print('Connection successful')
 print(station.ifconfig())
 
-time.sleep(3)
-print("Hello Sam!")
+#time.sleep(3)
+#print("Hello Sam!")

@@ -1,13 +1,21 @@
+def writeDoorState():
+     settings_dict['DoorState'] = door_state
+     settings_dict['LEDState'] = led_state
+     print(settings_dict['DoorState'])
+     with open('settings.json', 'w') as json_file:
+        json.dump(settings_dict, json_file)
+  
 def openDoor():
     dc_motor.forward(50)
     time.sleep(25)
     dc_motor.stop()
-    
+    print("The door is AJAR!")
 
 def closeDoor():
     dc_motor.backwards(50)
     time.sleep(25)
     dc_motor.stop()
+    print("The door is CLOSED!")
 
 def web_page():
     html = """<html>
@@ -85,14 +93,12 @@ while True:
             door_state = "OPEN"
             color = "d8dc55"
             led.on()
-            openDoor()
         if led_off == 6:
             print('LED OFF -> GPIO2')
             led_state = "OFF"
             door_state = "CLOSED"
             led.off()
             color = "000000"
-            closeDoor()
         response = web_page()
         conn.send('HTTP/1.1 200 OK\n')
         conn.send('Content-Type: text/html\n')
@@ -100,7 +106,11 @@ while True:
         conn.sendall(response)
         conn.close()
         print(door_state)
-       
+        if door_state == "OPEN":
+            openDoor()
+        if door_state == "CLOSED":
+            closeDoor()
+        writeDoorState()
     except OSError as e:
         conn.close()
         print('Connection closed')
