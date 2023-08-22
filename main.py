@@ -1,23 +1,12 @@
-
-def runMotor():
-    dc_motor.forward(100)    
-    time.sleep(10)        
-    dc_motor.stop()  
-    time.sleep(10)    
-    dc_motor.backwards(100)  
-    time.sleep(10)       
-    dc_motor.forward(100)
-    time.sleep(10)
-    dc_motor.stop()
-
-async def openDoor():
+def openDoor():
     dc_motor.forward(50)
-    time.sleep(10)
+    time.sleep(25)
     dc_motor.stop()
+    
 
-async def closeDoor():
+def closeDoor():
     dc_motor.backwards(50)
-    time.sleep(10)
+    time.sleep(25)
     dc_motor.stop()
 
 def web_page():
@@ -96,24 +85,22 @@ while True:
             door_state = "OPEN"
             color = "d8dc55"
             led.on()
-            dc_motor.forward(50)    
-            time.sleep(10)        
-            dc_motor.stop() 
+            openDoor()
         if led_off == 6:
             print('LED OFF -> GPIO2')
             led_state = "OFF"
             door_state = "CLOSED"
             led.off()
             color = "000000"
-            dc_motor.backwards(50)    
-            time.sleep(10)        
-            dc_motor.stop() 
+            closeDoor()
         response = web_page()
         conn.send('HTTP/1.1 200 OK\n')
         conn.send('Content-Type: text/html\n')
         conn.send('Connection: close\n\n')
         conn.sendall(response)
         conn.close()
+        print(door_state)
+       
     except OSError as e:
         conn.close()
         print('Connection closed')

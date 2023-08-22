@@ -1,6 +1,8 @@
 {
-  "SSID": "yourssid",
+  "SSID": "Ervin-2g",
   "motortype": "actuator",
   "speed": 50,
-  "Key": "yourpassword"
+  "Key": "A10CJ11ASA05BLERVIN",
+  "DoorState":"CLOSED",
+  "LEDState":"OFF"
 }
